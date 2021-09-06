@@ -35,6 +35,8 @@ public class User {
     private String state;
     @NotBlank
     private String country;
+    @NotBlank
+    private String address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cart> carts = new ArrayList<>();

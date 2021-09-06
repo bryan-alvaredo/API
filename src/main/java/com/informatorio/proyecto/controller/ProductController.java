@@ -4,10 +4,31 @@ import com.informatorio.proyecto.entity.Product;
 import com.informatorio.proyecto.repository.ProductRepository;
 import com.informatorio.proyecto.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
+@RequestMapping("/product")
 public class ProductController {
+
+    private ProductRepository productRepository;
+
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) throws CartException {
+        return new ResponseEntity<>(productRepository.save(product), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findProduct(@RequestParam("startWith") String startWith) throws CartException {
+        return new ResponseEntity<>(productRepository.findForName(startWith)), HttpStatus.CREATED);
+    }
 
     @Autowired
     private ProductRepository repository;
@@ -27,3 +48,23 @@ public class ProductController {
         return helloService.saludar();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
